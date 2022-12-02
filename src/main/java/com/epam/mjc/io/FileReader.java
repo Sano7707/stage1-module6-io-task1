@@ -8,10 +8,8 @@ public class FileReader {
 
     public Profile getDataFromFile(File file)  {
         StringBuilder s = new StringBuilder();
-        java.io.FileReader fr = null;
-        try {
-            fr = new java.io.
-                    FileReader(file);
+        try (java.io.FileReader fr = new java.io.
+                FileReader(file)) {
             int i;
             while ((i = fr.read()) != -1) {
                 s.append((char) i);
@@ -23,16 +21,9 @@ public class FileReader {
         catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            try {
-                assert fr != null;
-                fr.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
-        String[] parts = s.toString().split("[:,'\n']");
+
+        String[] parts = s.toString().split("[:,\n]");
         String name = parts[1].trim();
         int age = Integer.parseInt(parts[3].trim());
         String email = parts[5].trim();
